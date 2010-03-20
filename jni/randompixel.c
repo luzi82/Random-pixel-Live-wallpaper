@@ -37,12 +37,17 @@ JNIEXPORT void JNICALL Java_com_luzi82_randomwallpaper_LiveWallpaper_setSize(JNI
 	}
 }
 
+JNIEXPORT void JNICALL Java_com_luzi82_randomwallpaper_LiveWallpaper_cleanBuf(JNIEnv* env,
+		jclass cls) {
+	clean();
+}
+
 JNIEXPORT void JNICALL Java_com_luzi82_randomwallpaper_LiveWallpaper_genRandom(JNIEnv* env,
 		jclass cls, jbyteArray out) {
 	static jint*ptr;
 	if(buf) {
 		ptr=buf;
-		while(ptr!=bufEnd){
+		while(ptr!=bufEnd) {
 			seed=(seed*multiplier+0xbLL)&((1LL<<48)-1);
 			*ptr=(int)((seed>>(48-32))|0xff000000);
 			ptr++;
