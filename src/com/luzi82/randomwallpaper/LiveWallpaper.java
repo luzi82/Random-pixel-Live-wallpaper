@@ -2,7 +2,6 @@ package com.luzi82.randomwallpaper;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -12,6 +11,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.service.wallpaper.WallpaperService;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -54,18 +54,19 @@ public class LiveWallpaper extends WallpaperService {
 	static int size = -1;
 	static Paint paint = new Paint();
 	static Random random = new Random();
-	static long time=System.currentTimeMillis();
-	
+	static long time = System.currentTimeMillis();
+
 	static {
 		paint.setColor(Color.RED);
 		paint.setTextSize(20);
 	}
-	
+
 	class LiveWallpaperEngine extends Engine {
 
 		@Override
 		public void onCreate(SurfaceHolder holder) {
 			super.onCreate(holder);
+			setSeed(System.currentTimeMillis());
 		}
 
 		@Override
@@ -87,7 +88,7 @@ public class LiveWallpaper extends WallpaperService {
 						public void run() {
 							updateCanvas();
 						}
-					}, 50, 50);
+					}, 100, 100);
 				}
 			} else {
 				if (timer != null) {
@@ -98,47 +99,52 @@ public class LiveWallpaper extends WallpaperService {
 
 		}
 
-		// 0 when on the first home screen, -0.5/-160px on the center
-		// home screen (assume 3 screens in total).
-		@Override
-		public void onOffsetsChanged(float xOffset, float yOffset,
-				float xOffsetStep, float yOffsetStep, int xPixelOffset,
-				int yPixelOffset) {
-			super.onOffsetsChanged(xOffset, yOffset, xOffsetStep, yOffsetStep,
-					xPixelOffset, yPixelOffset);
-			Log.d(LOG_TAG, "xOffset=" + xOffset + " yOffset=" + yOffset
-					+ "xOffseStep=" + xOffsetStep + " yOffsetStep="
-					+ yOffsetStep + "xPixelOffset=" + xPixelOffset
-					+ " yPixelOffset=" + yPixelOffset);
-			LiveWallpaper.xOffset = xOffset;
-			LiveWallpaper.yOffset = yOffset;
-			// updateCanvas();
-		}
+//		// 0 when on the first home screen, -0.5/-160px on the center
+//		// home screen (assume 3 screens in total).
+//		@Override
+//		public void onOffsetsChanged(float xOffset, float yOffset,
+//				float xOffsetStep, float yOffsetStep, int xPixelOffset,
+//				int yPixelOffset) {
+//			super.onOffsetsChanged(xOffset, yOffset, xOffsetStep, yOffsetStep,
+//					xPixelOffset, yPixelOffset);
+//			Log.d(LOG_TAG, "xOffset=" + xOffset + " yOffset=" + yOffset
+//					+ "xOffseStep=" + xOffsetStep + " yOffsetStep="
+//					+ yOffsetStep + "xPixelOffset=" + xPixelOffset
+//					+ " yPixelOffset=" + yPixelOffset);
+//			LiveWallpaper.xOffset = xOffset;
+//			LiveWallpaper.yOffset = yOffset;
+//			// updateCanvas();
+//		}
 
 		@Override
 		public void onSurfaceChanged(SurfaceHolder holder, int format,
 				int width, int height) {
 			super.onSurfaceChanged(holder, format, width, height);
 			Log.d(LOG_TAG, "onSurfaceChanged");
+			setSize(width*height);
 		}
 
 		@Override
 		public void onSurfaceCreated(SurfaceHolder holder) {
 			super.onSurfaceCreated(holder);
 			Log.d(LOG_TAG, "onSurfaceCreated");
+			Rect rect=holder.getSurfaceFrame();
+			setSize(rect.width()*rect.height());
 		}
 
 		@Override
 		public void onSurfaceDestroyed(SurfaceHolder holder) {
 			super.onSurfaceDestroyed(holder);
 			Log.d(LOG_TAG, "onSurfaceDestroyed");
+			Rect rect=holder.getSurfaceFrame();
+			setSize(rect.width()*rect.height());
 		}
 
 		private void updateCanvas() {
 			Log.d(LOG_TAG, "updateCanvas start");
-			long now=System.currentTimeMillis();
-			int diff=(int)(now-time);
-			time=now;
+			long now = System.currentTimeMillis();
+			int diff = (int) (now - time);
+			time = now;
 			SurfaceHolder holder = getSurfaceHolder();
 			if (holder != null) {
 				Canvas c = null;
@@ -163,15 +169,16 @@ public class LiveWallpaper extends WallpaperService {
 
 							size = s;
 						}
-						Arrays.fill(byteAry, (byte)0x00);
-//						random.nextBytes(byteAry);
+//						Arrays.fill(byteAry, (byte) 0x00);
+						genRandom(byteAry);
+						// random.nextBytes(byteAry);
 						// intBuffer.rewind();
 						// intBuffer.get(intAry);
 						Log.d(LOG_TAG, "updateCanvas copy");
 						bitmap.copyPixelsFromBuffer(byteBuffer);
 						Log.d(LOG_TAG, "updateCanvas draw");
 						c.drawBitmap(bitmap, mi, paint);
-						c.drawText(""+diff, 100, 100, paint);
+//						c.drawText("" + diff, 100, 100, paint);
 					}
 				} finally {
 					if (c != null)
@@ -181,5 +188,12 @@ public class LiveWallpaper extends WallpaperService {
 			Log.d(LOG_TAG, "updateCanvas end");
 		}
 	}
+
+	static {
+		System.loadLibrary("randompixel");
+	}
+	public static native void setSeed(long seed);
+	public static native void setSize(int imgSize);
+	public static native void genRandom(byte[] out);
 
 }
