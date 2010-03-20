@@ -2,3 +2,4 @@ bin
 gen
 librandompixel.so
 out
+install.sh

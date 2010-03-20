@@ -54,7 +54,7 @@ public class LiveWallpaper extends WallpaperService {
 			if (bitmap != null)
 				bitmap.recycle();
 			bitmap = null;
-			cleanBuf();
+//			cleanBuf();
 		}
 	}
 
@@ -75,7 +75,7 @@ public class LiveWallpaper extends WallpaperService {
 			if (size != s) {
 				byteAry = new byte[s << 2];
 				byteBuffer = ByteBuffer.wrap(byteAry);
-				setSize(s);
+//				setSize(s);
 				size = s;
 			}
 			genRandom(byteAry);
@@ -205,10 +205,6 @@ public class LiveWallpaper extends WallpaperService {
 	}
 
 	public static native void setSeed(long seed);
-
-	public static native void setSize(int imgSize);
-
-	public static native void cleanBuf();
 
 	public static native void genRandom(byte[] out);
 
