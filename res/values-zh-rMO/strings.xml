@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">隨機RGB即時桌布</string>
+    <string name="wallpaper_name">隨機RGB</string>
+    <string name="description">隨機的雪花畫面</string>
+</resources>
