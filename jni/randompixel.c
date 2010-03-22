@@ -24,8 +24,8 @@ JNIEXPORT void JNICALL Java_com_luzi82_randomwallpaper_LiveWallpaper_genRandom(J
 			bufEnd=buf2+(len>>2);
 			while(ptr!=bufEnd) {
 				seed=(seed*multiplier+0xbLL)&((1LL<<48)-1);
-				*ptr=(int)((seed>>(48-32))|0xff000000);
-				ptr++;
+				*ptr=((int)(seed>>(48-32)))|0xff000000;
+				++ptr;
 			}
 //		}
 		(*env)->ReleaseByteArrayElements(env,out,(jbyte*)buf2,0);
