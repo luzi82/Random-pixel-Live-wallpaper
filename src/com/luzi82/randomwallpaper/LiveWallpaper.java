@@ -66,8 +66,10 @@ public class LiveWallpaper extends WallpaperService {
 			int nowHeight = c.getHeight();
 			int s = (nowWidth * nowHeight) << 2;
 			if ((oldHeight != nowHeight) || (oldWidth != nowWidth)) {
-				if (bitmap != null)
+				if (bitmap != null) {
 					bitmap.recycle();
+					bitmap = null;
+				}
 				bitmap = Bitmap.createBitmap(nowWidth, nowHeight,
 						Bitmap.Config.ARGB_8888);
 				oldHeight = nowHeight;
