@@ -41,12 +41,13 @@ public class LiveWallpaper extends WallpaperService {
 	static byte[] byteAry;
 	static ByteBuffer byteBuffer;
 	static Bitmap bitmap;
-	static int size = -1;
+
+	// static int size = -1;
 
 	static void clean() {
 		// Log.d(LOG_TAG, "static synchronized void clean()");
 		synchronized (mi) {
-			size = -1;
+			// size = -1;
 			oldWidth = -1;
 			oldHeight = -1;
 			byteAry = null;
@@ -54,7 +55,7 @@ public class LiveWallpaper extends WallpaperService {
 			if (bitmap != null)
 				bitmap.recycle();
 			bitmap = null;
-//			cleanBuf();
+			// cleanBuf();
 		}
 	}
 
@@ -72,11 +73,11 @@ public class LiveWallpaper extends WallpaperService {
 				oldHeight = nowHeight;
 				oldWidth = nowWidth;
 			}
-			if (size != s) {
+			if (byteAry == null || byteAry.length != s) {
 				byteAry = new byte[s << 2];
 				byteBuffer = ByteBuffer.wrap(byteAry);
-//				setSize(s);
-				size = s;
+				// setSize(s);
+				// size = s;
 			}
 			genRandom(byteAry);
 			bitmap.copyPixelsFromBuffer(byteBuffer);
