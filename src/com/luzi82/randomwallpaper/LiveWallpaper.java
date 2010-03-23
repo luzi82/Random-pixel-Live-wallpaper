@@ -64,7 +64,7 @@ public class LiveWallpaper extends WallpaperService {
 		synchronized (mi) {
 			int nowWidth = c.getWidth();
 			int nowHeight = c.getHeight();
-			int s = nowWidth * nowHeight;
+			int s = (nowWidth * nowHeight) << 2;
 			if ((oldHeight != nowHeight) || (oldWidth != nowWidth)) {
 				if (bitmap != null)
 					bitmap.recycle();
@@ -74,7 +74,7 @@ public class LiveWallpaper extends WallpaperService {
 				oldWidth = nowWidth;
 			}
 			if (byteAry == null || byteAry.length != s) {
-				byteAry = new byte[s << 2];
+				byteAry = new byte[s];
 				byteBuffer = ByteBuffer.wrap(byteAry);
 				// setSize(s);
 				// size = s;
