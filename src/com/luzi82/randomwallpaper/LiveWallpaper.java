@@ -37,8 +37,6 @@ public class LiveWallpaper extends WallpaperService {
 	static ByteBuffer byteBuffer;
 	static Bitmap bitmap;
 
-	// static int size = -1;
-
 	static void clean() {
 		// Log.d(LOG_TAG, "static synchronized void clean()");
 		synchronized (mi) {
@@ -82,13 +80,6 @@ public class LiveWallpaper extends WallpaperService {
 		}
 		// Log.d(LOG_TAG, "static void drawCanvas(Canvas c) end");
 	}
-
-	// static long time = System.currentTimeMillis();
-
-	// static {
-	// paint.setColor(Color.RED);
-	// paint.setTextSize(20);
-	// }
 
 	class LiveWallpaperEngine extends Engine {
 
