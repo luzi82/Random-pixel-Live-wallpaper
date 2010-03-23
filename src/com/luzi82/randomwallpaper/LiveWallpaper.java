@@ -16,11 +16,6 @@ public class LiveWallpaper extends WallpaperService {
 	// private static final String LOG_TAG = "LiveWallpaper";
 
 	@Override
-	public void onCreate() {
-		super.onCreate();
-	}
-
-	@Override
 	public void onDestroy() {
 		clean();
 		super.onDestroy();
@@ -100,11 +95,6 @@ public class LiveWallpaper extends WallpaperService {
 		Timer timer;
 
 		@Override
-		public void onCreate(SurfaceHolder holder) {
-			super.onCreate(holder);
-		}
-
-		@Override
 		public void onDestroy() {
 			synchronized (mi) {
 				clearTimer();
@@ -127,25 +117,6 @@ public class LiveWallpaper extends WallpaperService {
 				}
 			}
 
-		}
-
-		@Override
-		public void onSurfaceChanged(SurfaceHolder holder, int format,
-				int width, int height) {
-			super.onSurfaceChanged(holder, format, width, height);
-			// Log.d(LOG_TAG, "onSurfaceChanged");
-		}
-
-		@Override
-		public void onSurfaceCreated(SurfaceHolder holder) {
-			super.onSurfaceCreated(holder);
-			// Log.d(LOG_TAG, "onSurfaceCreated");
-		}
-
-		@Override
-		public void onSurfaceDestroyed(SurfaceHolder holder) {
-			super.onSurfaceDestroyed(holder);
-			// Log.d(LOG_TAG, "onSurfaceDestroyed");
 		}
 
 		private void updateCanvas() {
