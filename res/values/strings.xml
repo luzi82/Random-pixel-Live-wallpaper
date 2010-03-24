@@ -3,4 +3,12 @@
     <string name="app_name">Random RGB Live Wallpaper</string>
     <string name="wallpaper_name">Random RGB</string>
     <string name="description">Display random color on each pixel</string>
+    <string name="preference_setting_title">Settings</string>
+    <string name="preference_setting_refreshperiod_title">Refresh period</string>
+    <string name="preference_setting_refreshperiod_dialog_title">Refresh period (ms)</string>
+    <string name="preference_setting_refreshperiod_dialog_error_format">Please input a number</string>
+    <string name="preference_setting_refreshperiod_dialog_error_more">Should be more than %1$d</string>
+    <string name="preference_setting_color_title">Color</string>
+    <string name="preference_setting_color_dialog_title">Color (AARRGGBB)</string>
+    <string name="preference_setting_color_dialog_error_format">Please input AARRGGBB format</string>
 </resources>

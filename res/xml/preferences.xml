@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceCategory android:title="@string/preference_setting_title">
+
+		<EditTextPreference android:key="preference_setting_refreshperiod"
+			android:title="@string/preference_setting_refreshperiod_title"
+			android:dialogTitle="@string/preference_setting_refreshperiod_dialog_title" />
+
+		<EditTextPreference android:key="preference_setting_color"
+			android:title="@string/preference_setting_color_title"
+			android:dialogTitle="@string/preference_setting_color_dialog_title" />
+
+	</PreferenceCategory>
+
+</PreferenceScreen>
