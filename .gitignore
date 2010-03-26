@@ -5,3 +5,4 @@ out
 install.sh
 libs
 uninstall.sh
+res/values*/strings.xml
