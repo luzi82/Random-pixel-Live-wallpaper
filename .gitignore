@@ -6,3 +6,4 @@ install.sh
 libs
 uninstall.sh
 res/values*/strings.xml
+.~lock.i18n.ods#

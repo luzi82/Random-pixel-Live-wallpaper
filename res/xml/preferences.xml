@@ -13,4 +13,21 @@
 
 	</PreferenceCategory>
 
+	<PreferenceCategory android:title="@string/preference_info_title">
+
+        <PreferenceScreen
+                android:key="preference_info_about"
+                android:title="@string/preference_info_about_title">
+            
+			<Preference android:key="preference_info_about_version"
+				android:title="@string/preference_info_about_version_title" />
+			<Preference android:key="preference_info_about_lib_version"
+				android:title="@string/preference_info_about_lib_version_title" />
+			<Preference android:key="preference_info_about_i18n_version"
+				android:title="@string/preference_info_about_lib_version_title" />
+                
+        </PreferenceScreen>
+
+	</PreferenceCategory>
+
 </PreferenceScreen>
