@@ -5,11 +5,15 @@
 
 		<EditTextPreference android:key="preference_setting_refreshperiod"
 			android:title="@string/preference_setting_refreshperiod_title"
-			android:dialogTitle="@string/preference_setting_refreshperiod_dialog_title" />
+			android:dialogTitle="@string/preference_setting_refreshperiod_dialog_title"
+			android:inputType="numberDecimal" android:persistent="true"
+			android:maxLength="8" />
 
 		<EditTextPreference android:key="preference_setting_color"
 			android:title="@string/preference_setting_color_title"
-			android:dialogTitle="@string/preference_setting_color_dialog_title" />
+			android:dialogTitle="@string/preference_setting_color_dialog_title"
+			android:persistent="true" android:maxLength="8"
+			android:inputType="textNoSuggestions|textCapCharacters" />
 
 	</PreferenceCategory>
 
@@ -27,7 +31,10 @@
 				android:summary="@string/i18n_version" />
 			<Preference android:key="preference_info_about_developer"
 				android:title="@string/preference_info_about_developer_title"
-				android:summary="@string/preference_info_about_developer_name" />
+				android:summary="@string/preference_info_about_developer_name">
+				<intent android:action="android.intent.action.VIEW"
+					android:data="@string/preference_info_about_developer_url" />
+			</Preference>
 			<Preference android:key="preference_info_about_appwebpage"
 				android:title="@string/preference_info_about_appwebpage_title"
 				android:summary="@string/preference_info_about_appwebpage_url">
@@ -45,7 +52,11 @@
 				<intent android:action="android.intent.action.SEND" />
 			</Preference>
 			<Preference android:key="preference_info_about_share"
-				android:title="@string/preference_info_about_share_title" />
+				android:title="@string/preference_info_about_share_title">
+				<intent android:action="android.intent.action.MAIN"
+					android:targetPackage="com.luzi82.randomwallpaper"
+					android:targetClass="com.luzi82.randomwallpaper.QRCode" />
+			</Preference>
 			<Preference android:key="preference_info_about_translate"
 				android:title="@string/preference_info_about_translate_title">
 				<intent android:action="android.intent.action.VIEW"
@@ -53,7 +64,10 @@
 			</Preference>
 			<Preference android:key="preference_info_about_xlsg"
 				android:title="@string/preference_info_about_xlsg_title"
-				android:summary="@string/preference_info_about_xlsg_subtitle" />
+				android:summary="@string/preference_info_about_xlsg_subtitle">
+				<intent android:action="android.intent.action.VIEW"
+					android:data="@string/preference_info_about_xlsg_url" />
+			</Preference>
 
 		</PreferenceScreen>
 

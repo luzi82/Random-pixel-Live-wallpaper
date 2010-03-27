@@ -15,6 +15,7 @@
 		<activity android:name=".Settings"
 			android:exported="true">
 		</activity>
+		<activity android:name=".QRCode"/>
 	</application>
 	<uses-sdk android:minSdkVersion="7" />
 	<uses-feature android:name="android.software.live_wallpaper" />
