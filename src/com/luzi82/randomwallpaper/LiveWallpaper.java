@@ -169,6 +169,8 @@ public class LiveWallpaper extends WallpaperService {
 		setSeed(System.currentTimeMillis());
 	}
 
+	public static native void getVersion(byte[] out);
+
 	public static native void setSeed(long seed);
 
 	public static native void genRandom(byte[] out);

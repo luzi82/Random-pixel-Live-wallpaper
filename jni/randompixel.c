@@ -1,8 +1,18 @@
 #include <jni.h>
 #include <stdlib.h>
+#include "version.h"
 
-jlong multiplier = 0x5deece66dLL;
+const jlong MULTIPLIER = 0x5deece66dLL;
 jlong seed = 0;
+
+JNIEXPORT void JNICALL Java_com_luzi82_randomwallpaper_LiveWallpaper_getVersion(JNIEnv* env,
+		jclass cls, jbyteArray out) {
+	jbyte*buf=((*env)->GetByteArrayElements(env,out,NULL));
+	if(buf){
+		memcpy(buf,__AUTO_VERSION__,sizeof(__AUTO_VERSION__));
+		(*env)->ReleaseByteArrayElements(env,out,buf,0);
+	}
+}
 
 JNIEXPORT void JNICALL Java_com_luzi82_randomwallpaper_LiveWallpaper_setSeed(JNIEnv* env,
 		jclass cls, jlong _seed) {
@@ -19,7 +29,7 @@ JNIEXPORT void JNICALL Java_com_luzi82_randomwallpaper_LiveWallpaper_genRandom(J
 		ptr=buf2;
 		bufEnd=buf2+(len>>2);
 		while(ptr!=bufEnd) {
-			seed=(seed*multiplier+0xbLL)&((1LL<<48)-1);
+			seed=(seed*MULTIPLIER+0xbLL)&((1LL<<48)-1);
 			*ptr=((int)(seed>>(48-32)))|0xff000000;
 			++ptr;
 		}
