@@ -183,7 +183,7 @@ public class LiveWallpaper extends WallpaperService {
 						public void run() {
 							updateCanvas();
 						}
-					}, rateInt, rateInt);
+					}, 0, rateInt);
 				}
 			}
 			// Log
@@ -229,6 +229,7 @@ public class LiveWallpaper extends WallpaperService {
 				}
 			} else if (key.equals(Settings.REFRESH_PEROID_KEY)) {
 				updateColor();
+				updateCanvas();
 			}
 		}
 	}
