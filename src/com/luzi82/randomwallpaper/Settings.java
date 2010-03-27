@@ -3,6 +3,9 @@ package com.luzi82.randomwallpaper;
 import java.io.UnsupportedEncodingException;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -15,6 +18,20 @@ public class Settings extends PreferenceActivity {
 
 		// Load the preferences from an XML resource
 		addPreferencesFromResource(R.xml.preferences);
+
+		// app ver
+		Preference appVerPreference = findPreference("preference_info_about_version");
+		PackageManager pm = getPackageManager();
+		String pn = getPackageName();
+		String appVerString = "unknown";
+		try {
+			PackageInfo pi = pm.getPackageInfo(pn, 0);
+			appVerString = String.format("%1$s (%2$d)", pi.versionName,
+					pi.versionCode);
+		} catch (NameNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		appVerPreference.setSummary(appVerString);
 
 		// jni ver
 		Preference jniVerPreference = findPreference("preference_info_about_lib_version");
