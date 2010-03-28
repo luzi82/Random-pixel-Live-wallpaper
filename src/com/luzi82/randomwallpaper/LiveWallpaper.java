@@ -114,11 +114,7 @@ public class LiveWallpaper extends WallpaperService {
 		@Override
 		public void onDestroy() {
 			synchronized (mi) {
-				if (sp == null)
-					return;
-				sp.unregisterOnSharedPreferenceChangeListener(this);
-				clearTimer();
-				clean();
+				cleanEngine();
 			}
 			super.onDestroy();
 		}
@@ -128,17 +124,11 @@ public class LiveWallpaper extends WallpaperService {
 		public void onVisibilityChanged(boolean visible) {
 			super.onVisibilityChanged(visible);
 			synchronized (mi) {
-				if (sp == null)
-					return;
 				// Log.d(LOG_TAG, "onVisibilityChanged=" + visible);
 				if (visible) {
-					sp.registerOnSharedPreferenceChangeListener(this);
-					updateColor();
-					createTimer();
+					startEngine();
 				} else {
-					sp.unregisterOnSharedPreferenceChangeListener(this);
-					clearTimer();
-					clean();
+					cleanEngine();
 				}
 			}
 
@@ -181,9 +171,11 @@ public class LiveWallpaper extends WallpaperService {
 					timer.scheduleAtFixedRate(new TimerTask() {
 						@Override
 						public void run() {
-							updateCanvas();
+							if(isVisible()){
+								updateCanvas();
+							}
 						}
-					}, 0, rateInt);
+					}, 100, rateInt);
 				}
 			}
 			// Log
@@ -227,10 +219,25 @@ public class LiveWallpaper extends WallpaperService {
 					clearTimer();
 					createTimer();
 				}
-			} else if (key.equals(Settings.REFRESH_PEROID_KEY)) {
+			} else if (key.equals(Settings.COLOR_KEY)) {
 				updateColor();
 				updateCanvas();
 			}
+		}
+		
+		public void startEngine(){
+			if (sp == null)
+				return;
+			sp.registerOnSharedPreferenceChangeListener(this);
+			updateColor();
+			createTimer();
+		}
+		public void cleanEngine(){
+			if (sp != null){
+				sp.unregisterOnSharedPreferenceChangeListener(this);
+			}
+			clearTimer();
+			clean();
 		}
 	}
 
