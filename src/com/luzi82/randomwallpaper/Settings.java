@@ -82,7 +82,7 @@ public class Settings extends PreferenceActivity implements
 	static public final int REFRESH_PEROID_DEFAULT_VALUE = 100;
 	static public final String REFRESH_PEROID_DEFAULT_VALUE_STRING = String
 			.valueOf(REFRESH_PEROID_DEFAULT_VALUE);
-	static public final int REFRESH_PEROID_VALUE_MIN = 100;
+	static public final int REFRESH_PEROID_VALUE_MIN = 50;
 	static public final int REFRESH_PEROID_VALUE_MINX = 1;
 	static public final int REFRESH_PEROID_VALUE_MAX = 99999999;
 
