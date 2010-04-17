@@ -92,6 +92,9 @@ public class Settings extends PreferenceActivity implements
 	static public final int COLOR_DEFAULT_VALUE = 0;
 	static public final String COLOR_DEFAULT_VALUE_STRING = "00000000";
 
+	static public final String COLORMODE_KEY = "preference_setting_colormode";
+	static public final String COLORMODE_DEFAULT_VALUE = "fullcolor";
+
 	static public final String COLOR_CHEAT_KEY = "preference_setting_color_cheat";
 
 	static public void initValue(SharedPreferences sp) {
@@ -102,6 +105,9 @@ public class Settings extends PreferenceActivity implements
 		}
 		if (!sp.contains(COLOR_KEY)) {
 			editor.putString(COLOR_KEY, COLOR_DEFAULT_VALUE_STRING);
+		}
+		if (!sp.contains(COLORMODE_KEY)) {
+			editor.putString(COLORMODE_KEY, COLORMODE_DEFAULT_VALUE);
 		}
 		editor.commit();
 	}
@@ -147,6 +153,10 @@ public class Settings extends PreferenceActivity implements
 
 	static public boolean getRefreshPeroidUnlock(SharedPreferences sp) {
 		return sp.getBoolean(REFRESH_PEROID_UNLOCK_KEY, false);
+	}
+
+	public int getColorMode(SharedPreferences sp) {
+		return toColorMode(sp.getString(COLORMODE_KEY, COLORMODE_DEFAULT_VALUE));
 	}
 
 	@Override
@@ -255,6 +265,9 @@ public class Settings extends PreferenceActivity implements
 		if (key.equals(COLOR_KEY) || key.equals(COLOR_CHEAT_KEY)) {
 			resetColorPreferenceSummary();
 		}
+		if (key.equals(COLORMODE_KEY)) {
+			resetColorModePreferenceSummary();
+		}
 	}
 
 	public void resetRefreshPeriodPreferenceSummary() {
@@ -278,6 +291,40 @@ public class Settings extends PreferenceActivity implements
 					R.string.preference_setting_color_value_format,
 					colorString.toUpperCase()));
 		}
+	}
+
+	public void resetColorModePreferenceSummary() {
+		Preference refreshPreference = findPreference(COLORMODE_KEY);
+		SharedPreferences sp = refreshPreference.getSharedPreferences();
+		int colorMode = getColorMode(sp);
+		String colorModeText = getColorModeTextArray()[colorMode];
+		refreshPreference.setSummary(colorModeText);
+	}
+
+	public static final class ColorMode {
+		static final int FULLCOLOR = 0;
+		static final int GRAYSCALE = 1;
+		static final int BLACKWHITE = 2;
+	}
+
+	public String[] getColorModeValueArray() {
+		return getResources().getStringArray(
+				R.array.preference_setting_colormode_valuearray);
+	}
+
+	public int toColorMode(String value) {
+		String[] colorModeStringArray = getColorModeValueArray();
+		int colorModeStringArrayLength = colorModeStringArray.length;
+		for (int i = 0; i < colorModeStringArrayLength; ++i) {
+			if (value.equals(colorModeStringArray[i]))
+				return i;
+		}
+		return 0;
+	}
+
+	public String[] getColorModeTextArray() {
+		return getResources().getStringArray(
+				R.array.preference_setting_colormode_textarray);
 	}
 
 }
