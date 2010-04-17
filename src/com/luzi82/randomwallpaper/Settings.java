@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -76,6 +77,7 @@ public class Settings extends PreferenceActivity implements
 		// update stuff
 		resetRefreshPeriodPreferenceSummary();
 		resetColorPreferenceSummary();
+		resetColorModePreferenceSummary();
 	}
 
 	static public final String REFRESH_PEROID_KEY = "preference_setting_refreshperiod";
@@ -155,8 +157,8 @@ public class Settings extends PreferenceActivity implements
 		return sp.getBoolean(REFRESH_PEROID_UNLOCK_KEY, false);
 	}
 
-	public int getColorMode(SharedPreferences sp) {
-		return toColorMode(sp.getString(COLORMODE_KEY, COLORMODE_DEFAULT_VALUE));
+	static public int getColorMode(Resources res,SharedPreferences sp) {
+		return toColorMode(res,sp.getString(COLORMODE_KEY, COLORMODE_DEFAULT_VALUE));
 	}
 
 	@Override
@@ -296,7 +298,7 @@ public class Settings extends PreferenceActivity implements
 	public void resetColorModePreferenceSummary() {
 		Preference refreshPreference = findPreference(COLORMODE_KEY);
 		SharedPreferences sp = refreshPreference.getSharedPreferences();
-		int colorMode = getColorMode(sp);
+		int colorMode = getColorMode(getResources(),sp);
 		String colorModeText = getColorModeTextArray()[colorMode];
 		refreshPreference.setSummary(colorModeText);
 	}
@@ -307,13 +309,13 @@ public class Settings extends PreferenceActivity implements
 		static final int BLACKWHITE = 2;
 	}
 
-	public String[] getColorModeValueArray() {
-		return getResources().getStringArray(
+	public static String[] getColorModeValueArray(Resources res) {
+		return res.getStringArray(
 				R.array.preference_setting_colormode_valuearray);
 	}
 
-	public int toColorMode(String value) {
-		String[] colorModeStringArray = getColorModeValueArray();
+	public static int toColorMode(Resources res,String value) {
+		String[] colorModeStringArray = getColorModeValueArray(res);
 		int colorModeStringArrayLength = colorModeStringArray.length;
 		for (int i = 0; i < colorModeStringArrayLength; ++i) {
 			if (value.equals(colorModeStringArray[i]))

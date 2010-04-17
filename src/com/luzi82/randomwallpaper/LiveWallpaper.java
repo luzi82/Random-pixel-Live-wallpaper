@@ -46,6 +46,7 @@ public class LiveWallpaper extends WallpaperService {
 	static int color = 0;
 	static boolean doRandom = false;
 	static boolean doColor = false;
+	static int colorMode = 0;
 
 	static void cleanBitmap() {
 		// Log.d(LOG_TAG, "static synchronized void clean()");
@@ -133,7 +134,20 @@ public class LiveWallpaper extends WallpaperService {
 									// setSize(s);
 									// size = s;
 								}
-								genRandom(byteAry);
+								switch (colorMode) {
+								case Settings.ColorMode.FULLCOLOR: {
+									genFullColorRandom(byteAry);
+									break;
+								}
+								case Settings.ColorMode.GRAYSCALE: {
+									genGrayScaleRandom(byteAry);
+									break;
+								}
+								case Settings.ColorMode.BLACKWHITE: {
+									genBlackWhiteRandom(byteAry);
+									break;
+								}
+								}
 								bitmap.copyPixelsFromBuffer(byteBuffer);
 								if (doRandom) {
 									c.drawBitmap(bitmap, mi, paint);
@@ -211,6 +225,14 @@ public class LiveWallpaper extends WallpaperService {
 			}
 		}
 
+		void updateColorMode() {
+			synchronized (mi) {
+				if (sp == null)
+					return;
+				colorMode = Settings.getColorMode(getResources(), sp);
+			}
+		}
+
 		@Override
 		public void onSharedPreferenceChanged(
 				SharedPreferences sharedPreferences, String key) {
@@ -224,6 +246,9 @@ public class LiveWallpaper extends WallpaperService {
 			} else if (key.equals(Settings.COLOR_KEY)) {
 				updateColor();
 				updateCanvas();
+			} else if (key.equals(Settings.COLORMODE_KEY)) {
+				updateColorMode();
+				updateCanvas();
 			}
 		}
 
@@ -232,6 +257,7 @@ public class LiveWallpaper extends WallpaperService {
 				return;
 			sp.registerOnSharedPreferenceChangeListener(this);
 			updateColor();
+			updateColorMode();
 			createTimer();
 		}
 
@@ -253,6 +279,10 @@ public class LiveWallpaper extends WallpaperService {
 
 	public static native void setSeed(long seed);
 
-	public static native void genRandom(byte[] out);
+	public static native void genFullColorRandom(byte[] out);
+
+	public static native void genGrayScaleRandom(byte[] out);
+
+	public static native void genBlackWhiteRandom(byte[] out);
 
 }
