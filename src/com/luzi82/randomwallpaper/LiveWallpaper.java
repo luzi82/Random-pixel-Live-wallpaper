@@ -113,27 +113,28 @@ public class LiveWallpaper extends WallpaperService {
 						Canvas c = null;
 						try {
 							c = holder.lockCanvas();
-							int nowWidth = c.getWidth();
-							int nowHeight = c.getHeight();
-							int s = (nowWidth * nowHeight) << 2;
-							// Log.d(LOG_TAG, "size "+nowWidth+" "+nowHeight);
-							if ((oldHeight != nowHeight)
-									|| (oldWidth != nowWidth)) {
-								cleanBitmap();
-								bitmap = Bitmap.createBitmap(nowWidth,
-										nowHeight, Bitmap.Config.ARGB_8888);
-								oldHeight = nowHeight;
-								oldWidth = nowWidth;
-							}
-							if (byteAry == null || byteAry.length != s) {
-								byteAry = new byte[s];
-								byteBuffer = ByteBuffer.wrap(byteAry);
-								// setSize(s);
-								// size = s;
-							}
-							genRandom(byteAry);
-							bitmap.copyPixelsFromBuffer(byteBuffer);
 							if (c != null) {
+								int nowWidth = c.getWidth();
+								int nowHeight = c.getHeight();
+								int s = (nowWidth * nowHeight) << 2;
+								// Log.d(LOG_TAG,
+								// "size "+nowWidth+" "+nowHeight);
+								if ((oldHeight != nowHeight)
+										|| (oldWidth != nowWidth)) {
+									cleanBitmap();
+									bitmap = Bitmap.createBitmap(nowWidth,
+											nowHeight, Bitmap.Config.ARGB_8888);
+									oldHeight = nowHeight;
+									oldWidth = nowWidth;
+								}
+								if (byteAry == null || byteAry.length != s) {
+									byteAry = new byte[s];
+									byteBuffer = ByteBuffer.wrap(byteAry);
+									// setSize(s);
+									// size = s;
+								}
+								genRandom(byteAry);
+								bitmap.copyPixelsFromBuffer(byteBuffer);
 								if (doRandom) {
 									c.drawBitmap(bitmap, mi, paint);
 								}
@@ -168,7 +169,8 @@ public class LiveWallpaper extends WallpaperService {
 					timer.scheduleAtFixedRate(new TimerTask() {
 						@Override
 						public void run() {
-							if(System.currentTimeMillis()-scheduledExecutionTime()>10)
+							if (System.currentTimeMillis()
+									- scheduledExecutionTime() > 10)
 								return;
 							updateCanvas();
 						}
